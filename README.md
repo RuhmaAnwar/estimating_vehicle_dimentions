@@ -96,7 +96,7 @@ Please cite:
 1. **Clone Repository**:
 
    ```bash
-   git clone <repository_url>
+   git clone https://github.com/RuhmaAnwar/estimating_vehicle_dimentions.git
    cd estimating_vehicle_dimentions
    ```
 
@@ -104,7 +104,6 @@ Please cite:
 
    - Download pNEUMA Vision data from Zenodo and extract to `RawDatasets/pNEUMA_Vision/`.
    - Download pNEUMA trajectory data from Open Traffic and extract to `RawDatasets/pNEUMA/`.
-   - Preprocessed data (optional): Placeholder Link (to be uploaded to Zenodo).
 
 3. **Set Up Environment**:
 
