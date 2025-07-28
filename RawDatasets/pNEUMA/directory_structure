@@ -1,0 +1,8 @@
+├── pNEUMA/
+│   │   ├── d1/
+│   │   │   ├── 20181029_d1_0900_0930.csv
+│   │   │   └── ...
+│   │   ├── d2/
+│   │   └── ...
+
+Make 10 folders named d1 - d10 then place raw pNEUMA csv data in them 

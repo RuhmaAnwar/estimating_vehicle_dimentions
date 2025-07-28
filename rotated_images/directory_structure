@@ -1,0 +1,15 @@
+├── rotated_images/
+│   ├── Car/
+│   │   ├── 21_d1/
+│   │   │   ├── 00001_21.jpg
+│   │   │   └── ...
+│   │   ├── 22_d2/
+│   │   └── ...
+│   ├── Taxi/
+│   ├── Motorcycle/
+│   ├── Medium Vehicle/
+│   ├── Heavy Vehicle/
+│   ├── Bus/
+│   └── ...
+
+Cropped and rotated vehicle images go here

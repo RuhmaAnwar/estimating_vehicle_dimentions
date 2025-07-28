@@ -1,0 +1,12 @@
+pNEUMA_Vision/
+│   │   ├── 20181029_D1_0900_0930/
+│   │   │   ├── Annotations/
+│   │   │   │   ├── 00001.csv
+│   │   │   │   └── ...
+│   │   │   ├── Frames/
+│   │   │   │   ├── 00001.jpg
+│   │   │   │   └── ...
+│   │   ├── 20181029_D2_0900_0930/
+│   │   └── ...
+
+Place pNEUMA Vision Dataset here

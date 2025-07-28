@@ -1,0 +1,16 @@
+├── yolo_output/
+│   ├── Car/
+│   │   ├── 21_d1/
+│   │   │   ├── pred_00001_21.jpg
+│   │   │   ├── pred_00001_21.txt
+│   │   │   └── ...
+│   │   ├── 22_d2/
+│   │   └── ...
+│   ├── Taxi/
+│   ├── Motorcycle/
+│   ├── Medium Vehicle/
+│   ├── Heavy Vehicle/
+│   ├── Bus/
+│   └── ...
+
+Output images with object detections after appying yolo goes here

@@ -1,0 +1,10 @@
+── InputData/
+│   ├── pNEUMA/
+│   │   ├── d1/
+│   │   │   ├── data_20181029_d1_0900_0930.h5
+│   │   │   ├── nevermove_20181029_d1_0900_0930.csv
+│   │   │   └── ...
+│   │   ├── d2/
+│   │   └── ...
+
+Make 10 folders named d1 - d10 then place preprocecced pNEUMA HDF5 data in them 
