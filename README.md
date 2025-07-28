@@ -2,12 +2,13 @@
 
 This repository processes the pNEUMA Vision dataset to detect vehicle dimentions (Motorcycle, Car, Taxi, Medium Vehicle, Heavy Vehicle, Bus) from drone images from October 29, 2018, using YOLO11. The pipeline preprocesses pNEUMA trajectory data, calculates per-image scaling factors, crops and rotates vehicle images, runs YOLO11x detection, removes empty detections, and generates a CSV summary of results.
 
-## Citation
+## Citations
 
 Please cite:
 
 - **pNEUMA Vision**: Barmpounakis, E., et al. (2022). A new dataset for multi-modal traffic analysis with large-scale vehicle trajectories and drone images. *Transportation Research Part C: Emerging Technologies*, 135, 103966. DOI: 10.1016/j.trc.2022.103966
 - **Preprocessing Code**: Adapted from Jiao, Y., Calvert, S. C., van Cranenburgh, S., & van Lint, H. (2023). Inferring vehicle spacing in urban traffic from trajectory data. *Transportation Research Part C: Emerging Technologies*, 155, 104289. DOI: 10.1016/j.trc.2023.104289
+- **pNEUMA Dataset**: Barmpounakis, E., & Geroliminis, N. (2020). pNEUMA dataset [Data set]. In On the new era of urban traffic monitoring with massive drone data: The pNEUMA large-scale field experiment, *Transportation Research Part C: Emerging Technologies*, 111, 50–71. DOI: 10.5281/zenodo.10491409
 
 ## Prerequisites
 
@@ -224,6 +225,9 @@ Run the following scripts in order from the `estimating_vehicle_dimentions` dire
   ```bash
   chmod -R u+w /home/ruhma/estimating_vehicle_dimentions
   ```
+## Acknowledgment
+
+**Data source**: pNEUMA – open-traffic.epfl.ch
 
 ## Contact
 
