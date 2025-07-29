@@ -24,18 +24,31 @@ def main():
     output_dir = os.path.join(parent_dir, "rotated_images")
     os.makedirs(output_dir, exist_ok=True)
     
-    # Load scaling factors
-    scaling_factors_path = os.path.join(parent_dir, "results/scaling_factors.csv")
-    if not os.path.exists(scaling_factors_path):
-        raise FileNotFoundError(f"Scaling factors CSV not found at {scaling_factors_path}. Run calculate_scaling_factor.py first.")
-    scaling_df = pd.read_csv(scaling_factors_path)
-    
-    for did in range(10):
+    for did in range(10):  # Change to range(1) for testing with D1
         drone = f'20181029_D{did+1}_0900_0930'
+        drone_id = f'd{did+1}'
+        drone_output_dir = os.path.join(output_dir, f"Car/{drone_id}")  # Check for any track folder
+        scaling_factors_path = os.path.join(parent_dir, f"results/scaling_factors_{drone_id}.csv")
+        
+        # Skip if scaling factors CSV or output directory exists
+        if os.path.exists(scaling_factors_path) and os.path.exists(drone_output_dir):
+            print(f"Skipping {drone}: scaling_factors_{drone_id}.csv and rotated_images output exist")
+            continue
+        
+        # Load scaling factors
+        if not os.path.exists(scaling_factors_path):
+            print(f"Scaling factors CSV not found at {scaling_factors_path}. Run calculate_scaling_factor.py for {drone} first.")
+            continue
+        scaling_df = pd.read_csv(scaling_factors_path)
+        
         drone_h5 = f'20181029_d{did+1}_0900_0930'
         image_dir = os.path.join(parent_dir, f'RawDatasets/pNEUMA_Vision/{drone}/Frames')
         csv_dir = os.path.join(parent_dir, f'RawDatasets/pNEUMA_Vision/{drone}/Annotations')
         hdf_path = os.path.join(parent_dir, f'InputData/pNEUMA/d{did+1}/data_{drone_h5}.h5')
+        
+        if not os.path.exists(image_dir) or not os.path.exists(csv_dir) or not os.path.exists(hdf_path):
+            print(f"Data for {drone} not found (image_dir, csv_dir, or hdf_path missing)")
+            continue
         
         image_files = sorted([f for f in os.listdir(image_dir) if f.endswith('.jpg')])
         for image_file in tqdm(image_files, desc=f"Processing {drone}"):
@@ -62,7 +75,7 @@ def main():
             if matched_df.empty:
                 continue
             
-            for _, row in tqdm(matched_df.iterrows(), total=len(matched_df), desc=f"Processing vehicles in {image_file}", leave=False):
+            for _, row in matched_df.iterrows():
                 track_id = row['track_id']
                 vehicle_type = row['agent_type']
                 x = row['x_img']
@@ -72,9 +85,7 @@ def main():
                 width = (row['width'] + 2) / scaling_factor    # Convert meters to pixels, add 2m
                 
                 # Create vehicle type and track ID subfolders
-                drone_id = f"d{did+1}"
-		track_folder = os.path.join(output_dir, vehicle_type, f"{int(track_id)}_{drone_id}")
-
+                track_folder = os.path.join(output_dir, vehicle_type, f"{int(track_id)}_{drone_id}")
                 os.makedirs(track_folder, exist_ok=True)
                 
                 corners = get_vehicle_corners(x, y, angle, length, width)
@@ -114,4 +125,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

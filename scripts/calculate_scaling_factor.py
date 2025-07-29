@@ -47,16 +47,28 @@ def calculate_scaling_factor(df):
 
 def main():
     parent_dir = "/home/ruhma/estimating_vehicle_dimentions"
-    scaling_factors = []
 
-    for did in range(1):  # Change to range(10) for all 10 days
+    for did in range(10):  # Change to range(1) for testing with D1
         drone = f'20181029_D{did+1}_0900_0930'
+        drone_id = f'd{did+1}'
+        output_csv = os.path.join(parent_dir, f'results/scaling_factors_{drone_id}.csv')
+
+        # Skip if CSV already exists
+        if os.path.exists(output_csv):
+            print(f"Skipping {drone}: scaling_factors_{drone_id}.csv already exists")
+            continue
+
         drone_h5 = f'20181029_d{did+1}_0900_0930'
         image_dir = os.path.join(parent_dir, f'RawDatasets/pNEUMA_Vision/{drone}/Frames')
         csv_dir = os.path.join(parent_dir, f'RawDatasets/pNEUMA_Vision/{drone}/Annotations')
         hdf_path = os.path.join(parent_dir, f'InputData/pNEUMA/d{did+1}/data_{drone_h5}.h5')
 
+        if not os.path.exists(image_dir) or not os.path.exists(csv_dir) or not os.path.exists(hdf_path):
+            print(f"Data for {drone} not found (image_dir, csv_dir, or hdf_path missing)")
+            continue
+
         image_files = sorted([f for f in os.listdir(image_dir) if f.endswith('.jpg')])
+        scaling_factors = []
         for image_file in tqdm(image_files, desc=f"Processing {drone}"):
             image_num = os.path.splitext(image_file)[0]
             image_path = os.path.join(image_dir, image_file)
@@ -78,14 +90,14 @@ def main():
                     'scaling_factor': scaling_factor
                 })
 
-    # Save scaling factors to CSV
-    scaling_df = pd.DataFrame(scaling_factors)
-    output_csv = os.path.join(parent_dir, 'results/scaling_factors.csv')
-    os.makedirs(os.path.dirname(output_csv), exist_ok=True)
-    scaling_df.to_csv(output_csv, index=False)
-    print(f"Saved scaling factors to {output_csv}")
-    print(f"Average scaling factor: {scaling_df['scaling_factor'].mean():.6f} meters/pixel")
+        # Save scaling factors to drone-specific CSV
+        if scaling_factors:
+            scaling_df = pd.DataFrame(scaling_factors)
+            os.makedirs(os.path.dirname(output_csv), exist_ok=True)
+            scaling_df.to_csv(output_csv, index=False)
+            print(f"Saved scaling factors to {output_csv}")
+        else:
+            print(f"No scaling factors calculated for {drone}")
 
 if __name__ == "__main__":
     main()
-
