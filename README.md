@@ -190,8 +190,6 @@ Run the following scripts in order from the `estimating_vehicle_dimentions` dire
 ## Notes
 
 - **YOLO11 Model**: The pipeline uses `yolo11x.pt`, which may detect non-vehicle classes (e.g., "bottle", "vase"); however since we were only interested in vehicle dimentions, classes were ignored as long as the vehicle was outlined. 
-
-  ```
 - **Performance**: Use a GPU for faster YOLO inference .
 - **Data Size**: The pipeline generates many images. Ensure sufficient disk space (\~50GB for all drones).
 
