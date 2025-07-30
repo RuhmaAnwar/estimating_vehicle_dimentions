@@ -61,7 +61,7 @@ def main():
     """Process drone data to calculate and save scaling factors."""
     parent_dir = Path("/home/ruhma/estimating_vehicle_dimentions")
     
-    for did in range(2, 10):  # Process D3 to D10
+    for did in range(10): 
         drone = f'20181029_D{did+1}_0900_0930'
         drone_id = f'd{did+1}'
         output_csv = parent_dir / f'results/scaling_factors_{drone_id}.csv'
