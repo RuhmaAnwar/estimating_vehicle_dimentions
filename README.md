@@ -140,7 +140,7 @@ Run the following scripts in order from the `estimating_vehicle_dimentions` dire
    python scripts/calculate_scaling_factor.py
    ```
 
-   - **Output**: `results/scaling_factors.csv`
+   - **Output**: `results/scaling_factors_d<drone_id>.csv`
    - Computes per-image scaling factors (meters/pixel) for drones D1–D10.
 
 3. **Crop and Rotate Images**:
@@ -181,7 +181,7 @@ Run the following scripts in order from the `estimating_vehicle_dimentions` dire
 ## Outputs
 
 - **Preprocessed Data**: `InputData/pNEUMA/d*/data_*.h5` (HDF5 files with trajectory data and vehicle dimensions)
-- **Scaling Factors**: `results/scaling_factors.csv` (drone, image, scaling factor)
+- **Scaling Factors**: `results/scaling_factors_d<drone_id>.csv` (drone, image, scaling factor)
 - **Cropped Images**: `rotated_images/<vehicle_type>/<track_id>_d<drone_id>/<image_num>_<track_id>.jpg`
 - **YOLO Outputs**: `yolo_output/<vehicle_type>/<track_id>_d<drone_id>/pred_*.jpg`, `pred_*.txt`
 - **CSV Summary**: `results/detections.csv` (detection details)
@@ -189,19 +189,10 @@ Run the following scripts in order from the `estimating_vehicle_dimentions` dire
 
 ## Notes
 
-- **YOLO11 Model**: The pipeline uses `yolo11x.pt`, which may detect non-vehicle classes (e.g., "bottle", "vase"). For accurate vehicle detection, train a custom YOLO model:
+- **YOLO11 Model**: The pipeline uses `yolo11x.pt`, which may detect non-vehicle classes (e.g., "bottle", "vase"); however since we were only interested in vehicle dimentions, classes were ignored as long as the vehicle was outlined. 
 
-  ```bash
-  yolo train model=yolo11x.pt data=<data.yaml> epochs=100 imgsz=640
   ```
-
-  Update `run_yolo_script.py`:
-
-  ```python
-  model = YOLO("/path/to/custom_model.pt")
-  ```
-- **Performance**: Use a GPU for faster YOLO inference by adding `device=0` to `model.predict()` in `run_yolo_script.py`.
-- **Scaling Factor Limitation**: `calculate_scaling_factor.py` currently processes only drone D1. Modify `range(1)` to `range(10)` for all drones.
+- **Performance**: Use a GPU for faster YOLO inference .
 - **Data Size**: The pipeline generates many images. Ensure sufficient disk space (\~50GB for all drones).
 
 ## Troubleshooting
@@ -211,8 +202,6 @@ Run the following scripts in order from the `estimating_vehicle_dimentions` dire
   ```bash
   ulimit -n 4096
   ```
-- **Missing Scaling Factors**:
-  - Run `calculate_scaling_factor.py` first to generate `results/scaling_factors.csv`.
 - **Invalid Bounding Boxes**:
   - Check image dimensions and annotations:
 
@@ -220,11 +209,6 @@ Run the following scripts in order from the `estimating_vehicle_dimentions` dire
     xdg-open RawDatasets/pNEUMA_Vision/20181029_D1_0900_0930/Frames/00001.jpg
     cat RawDatasets/pNEUMA_Vision/20181029_D1_0900_0930/Annotations/00001.csv
     ```
-- **Permission Issues**:
-
-  ```bash
-  chmod -R u+w /home/ruhma/estimating_vehicle_dimentions
-  ```
 ## Acknowledgment
 
 **Data source**: pNEUMA – open-traffic.epfl.ch
